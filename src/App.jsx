@@ -4,6 +4,8 @@ import Options from "./components/Options/Options"
 
 import Feedback from "./components/Feedback/Feedback"
 
+import Notification from "./components/Notification/Notification";
+
 import { useState } from 'react';
 
 
@@ -23,6 +25,8 @@ const [feedback, setFeedback] = useState({ good: 0, neutral: 0, bad: 0 });
     setFeedback({ good: 0, neutral: 0, bad: 0 });
   };
 
+ const totalFeedback = feedback.good + feedback.neutral + feedback.bad;
+
   return (
     <>
       <Description
@@ -32,11 +36,14 @@ const [feedback, setFeedback] = useState({ good: 0, neutral: 0, bad: 0 });
 
       <Options btnTxt1={"Good"} btnTxt2={"Neutral"} btnTxt3={"Bad"} btnTxt4={"Reset"}
           updateFeedback={updateFeedback}
-        resetFeedback={resetFeedback}></Options>
+        resetFeedback={resetFeedback}
+      totalFeedback={totalFeedback}></Options>
 
-      <Feedback
-        feedback={feedback}
-      ></Feedback>
+      {totalFeedback > 0 ? (
+        <Feedback feedback={feedback} />
+      ) : (
+        <Notification message={"No feedback given yet."} />
+      )}
     </>
   )
 }
